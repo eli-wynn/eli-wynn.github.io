@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eli Wynn | Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <div id="particles-background"></div>
+    
+    <div class="content-wrapper">
+        <nav id="top-nav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        
+        <section id="home" class="hero-section">
+            <h1>Eli Wynn</h1>
+            <p>DevOps & Software Engineer</p>
+            <div class="social-buttons">
+                <a href="https://www.linkedin.com/in/eli-wynn-47978024b/" target="_blank" class="social-button linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/eli-wynn" target="_blank" class="social-button github">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="assets/resumeSummer2025.pdf" onclick="window.open('assets/resumeSummer2025.pdf', '_blank'); return false;" class="social-button cv">
+                    <i class="fas fa-file-download"></i>
+                    <span>View CV</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-grid">
+                    <div class="about-education">
+                        <h3>Education</h3>
+                        <div class="education-item">
+                            <h4>Honours BSc in Computer Science</h4>
+                            <p class="institution">University of Ottawa</p>
+                            <p class="date">2021-2025</p>
+                        </div>
+                    </div>
+                    
+                    <div class="about-skills">
+                        <h3>Technical Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>Languages</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
+                                    <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
+                                    <span class="skill-tag"><i class="fas fa-code"></i> C</span>
+                                    <span class="skill-tag"><i class="fas fa-code"></i> C++</span>
+                                    <span class="skill-tag"><i class="fas fa-database"></i> SQL</span>
+                                    <span class="skill-tag"><i class="fab fa-golang"></i> Golang</span>
+                                    <span class="skill-tag"><i class="fas fa-code"></i> ADA</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Web Development</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag"><i class="fab fa-html5"></i> HTML/CSS</span>
+                                    <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span>
+                                    <span class="skill-tag"><i class="fab fa-react"></i> React</span>
+                                    <span class="skill-tag"><i class="fab fa-node-js"></i> NodeJS</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Tools & Platforms</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag"><i class="fab fa-git-alt"></i> Git</span>
+                                    <span class="skill-tag"><i class="fab fa-linux"></i> Linux</span>
+                                    <span class="skill-tag"><i class="fab fa-microsoft"></i> Azure</span>
+                                    <span class="skill-tag"><i class="fab fa-aws"></i> AWS</span>
+                                    <span class="skill-tag"><i class="fab fa-unity"></i> Unity</span>
+                                    <span class="skill-tag"><i class="fas fa-database"></i> PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-experience">
+                    <h3>Experience</h3>
+                    
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <h4>DevOps Intern</h4>
+                            <p class="company">Mavericks VFX</p>
+                            <p class="date">May 2022 - August 2024</p>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Designed and implemented a company knowledge base on Confluence</li>
+                            <li>Developed Python scripts for automating onboarding processes</li>
+                            <li>Created monitoring dashboards for company workstations and servers</li>
+                            <li>Developed a Slackbot for viewing company data and systems</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <h4>Software Engineer - Capstone Project</h4>
+                            <p class="company">AdaCore</p>
+                            <p class="date">January 2025 - April 2025</p>
+                        </div>
+                        <ul class="experience-details">
+                            <li>Developed a cross-platform ASCII Art Engine library in Ada</li>
+                            <li>Published project components as Alire crates</li>
+                        </ul>
+                    </div>
+                </div>
+<!--                 
+                <div class="about-projects">
+                    <h3>Projects</h3>
+                    <div class="project-items">
+                        <div class="project-item">
+                            <h4>Oiligarchy</h4>
+                            <p>Game developed in Unity during Hack-the-Hill Hackathon (3rd place)</p>
+                        </div>
+                        <div class="project-item">
+                            <h4>Supervised Learning Classification</h4>
+                            <p>Machine learning project on occupancy data</p>
+                        </div>
+                        <div class="project-item">
+                            <h4>S-Box Encryption</h4>
+                            <p>Encryption algorithm with differential cryptanalysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </section>
+
+        <section id="contact" class="contact-section">
+            <h2>Contact Me</h2>
+            <div class="contact-content">
+                <p>Email: eli.wynn7@gmail.com</p>
+                <p>LinkedIn: <a href="https://linkedin.com/in/eliwynn" target="_blank">linkedin.com/in/eliwynn</a></p>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="Javascript/main.js"></script>
+</body>
+</html>
