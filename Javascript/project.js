@@ -191,66 +191,91 @@ if (container) {
   // ─── Load Projects ───────────────────────────
 
   async function loadProjects() {
-    try {
-      const res = await fetch("https://api.github.com/users/eli-wynn/repos");
-      const repos = await res.json();
+    const CACHE_KEY = "github_projects_cache";
+    const CACHE_TIME = 60 * 60 * 1000; // 1 hour
 
-      const filtered = repos
-        .filter(repo => !repo.fork)
-        .filter(repo => PINNED.includes(repo.name))
+    try {
+        let repos;
+        const cached = localStorage.getItem(CACHE_KEY);
+        const lastFetch = localStorage.getItem(CACHE_KEY + "_time");
+
+        // Check if cache exists and is fresh
+        if (cached && lastFetch && (Date.now() - lastFetch < CACHE_TIME)) {
+        repos = JSON.parse(cached);
+        } else {
+        const res = await fetch("https://api.github.com/users/eli-wynn/repos");
+        if (!res.ok) throw new Error("Rate limit or API error");
+        repos = await res.json();
+        
+        // Save to cache
+        localStorage.setItem(CACHE_KEY, JSON.stringify(repos));
+        localStorage.setItem(CACHE_KEY + "_time", Date.now());
+        }
+
+        const filtered = repos
+        .filter(repo => !repo.fork && PINNED.includes(repo.name))
         .sort((a, b) => PINNED.indexOf(a.name) - PINNED.indexOf(b.name));
 
-      for (const repo of filtered) {
+        container.innerHTML = ""; // Clear loader
 
-        const project = document.createElement("div");
-        project.className = "project fade-up";
-
-        const canvasId = `chart-${repo.name}`;
-
-      project.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:20px;">
-            
-            <div style="flex: 1;">
-            <h2 style="margin-bottom: 4px;">${formatName(repo.name)}</h2>
-            
-            <p style="font-size: 13px; color: #8b949e; margin-bottom: 12px; line-height: 1.4;">
-                ${repo.description || "No description provided."}
-            </p>
-
-            <div class="project-links">
-                <a href="${repo.html_url}" target="_blank"><span>GitHub</span></a>
-                ${repo.homepage ? `<a href="${repo.homepage}" target="_blank"><span>Live Demo</span></a>` : ""}
-            </div>
-            </div>
-
-            <canvas id="${canvasId}"></canvas>
-
-        </div>
-      `;
-
-        container.appendChild(project);
-
+        for (const repo of filtered) {
         const langData = await fetchLanguages(repo);
-        const canvas = document.getElementById(canvasId);
-
-        if (canvas) {
-          drawDonutAnimated(canvas, langData);
+        renderProjectCard(repo, langData);
         }
-
-        if (typeof fadeObserver !== "undefined") {
-          fadeObserver.observe(project);
-        }
-      }
 
     } catch (err) {
-      console.error("Failed to load projects:", err);
-
-      container.innerHTML = `
-        <p style="color: var(--text-muted); font-size: 13px;">
-          Failed to load projects. Run via a local server.
-        </p>
-      `;
+        console.error(err);
+        container.innerHTML = `
+        <div style="text-align:center; padding: 20px; border: 1px dashed #333;">
+            <p style="color: #8b949e;">GitHub API limit reached or offline.</p>
+            <a href="https://github.com/eli-wynn" style="color:#7DF9A6; text-decoration:none; font-size:12px;">
+            View Projects on GitHub →
+            </a>
+        </div>`;
     }
+  }
+
+  function renderProjectCard(repo, langData) {
+    const project = document.createElement("div");
+    project.className = "project fade-up";
+    const canvasId = `chart-${repo.name}`;
+
+    // Generate Legend HTML
+    const legendHtml = langData.map(l => {
+        const color = GITHUB_LANG_COLORS[l.lang] || "#8b949e";
+        return `
+        <span style="display:flex; align-items:center; gap:4px; font-size:11px; color:#8b949e;">
+            <span style="width:8px; height:8px; border-radius:50%; background:${color};"></span>
+            ${l.lang}
+        </span>`;
+    }).join("");
+
+    project.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:24px;">
+        <div style="flex: 1;">
+            <h2 style="margin:0 0 4px 0; font-size: 1.2rem;">${formatName(repo.name)}</h2>
+            <p style="font-size: 13px; color: #8b949e; margin-bottom: 12px; line-height: 1.4;">
+            ${repo.description || "No description provided."}
+            </p>
+            
+            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+            ${legendHtml}
+            </div>
+
+            <div class="project-links">
+            <a href="${repo.html_url}" target="_blank"><span>GitHub</span></a>
+            ${repo.homepage ? `<a href="${repo.homepage}" target="_blank"><span>Live Demo</span></a>` : ""}
+            </div>
+        </div>
+
+        <canvas id="${canvasId}" style="flex-shrink:0;"></canvas>
+        </div>
+    `;
+
+    container.appendChild(project);
+    const canvas = document.getElementById(canvasId);
+    if (canvas) drawDonutAnimated(canvas, langData);
+    if (typeof fadeObserver !== "undefined") fadeObserver.observe(project);
   }
 
   function formatName(name) {
